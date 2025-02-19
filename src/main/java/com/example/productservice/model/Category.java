@@ -1,17 +1,11 @@
 package com.example.productservice.model;
 
-public class Category {
+import jakarta.persistence.Entity;
 
-    private Integer id;
+@Entity
+public class Category extends BaseModel{
+
     private String name;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

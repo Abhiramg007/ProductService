@@ -1,20 +1,21 @@
 package com.example.productservice.model;
 
-public class Product {
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ManyToOne;
 
-    private Integer id;
+@Entity
+public class Product extends BaseModel{
+
+
     private String imageURL;
     private String title;
     private String description;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Category category;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getImageURL() {
         return imageURL;
