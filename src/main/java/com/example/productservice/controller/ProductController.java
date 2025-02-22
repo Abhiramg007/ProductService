@@ -2,18 +2,19 @@ package com.example.productservice.controller;
 
 import com.example.productservice.dto.ProductDTO;
 import com.example.productservice.model.Product;
-import com.example.productservice.service.FakeStoreProductService;
+import com.example.productservice.service.ProductService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-public class FakeStoreProductController {
+public class ProductController {
 
-    private FakeStoreProductService fakeStoreProductService;
+    private ProductService productService;
 
-    public FakeStoreProductController(FakeStoreProductService fakeStoreProductService) {
-        this.fakeStoreProductService = fakeStoreProductService;
+    public ProductController(@Qualifier("selfProductService") ProductService productService) {
+        this.productService = productService;
     }
 
     @GetMapping("/hello")
@@ -23,28 +24,28 @@ public class FakeStoreProductController {
 
     @GetMapping("/product/{id}")
     public Product getProductById(@PathVariable Integer id) {
-        return fakeStoreProductService.getProduct(id);
+        return productService.getProductById(id);
 
     }
 
     @GetMapping("/products")
     public List<Product> getAllProduct() {
-        return fakeStoreProductService.getAllProducts();
+        return productService.getAllProducts();
     }
 
     @PostMapping("/product")
     public Product addProduct(@RequestBody ProductDTO product) {
-        return fakeStoreProductService.createProduct(product);
+        return productService.createProduct(product);
     }
 
     @PutMapping("/product/{id}")
     public Product updateProduct(@PathVariable Integer id, @RequestBody ProductDTO product) {
-        return fakeStoreProductService.updateProduct(id, product);
+        return productService.updateProduct(id, product);
     }
 
     @DeleteMapping("/product/{id}")
-    public String deleteProduct(@PathVariable Integer id) {
-        return fakeStoreProductService.deleteProduct(id);
+    public Product deleteProduct(@PathVariable Integer id) {
+        return productService.deleteProduct(id);
     }
 
 }

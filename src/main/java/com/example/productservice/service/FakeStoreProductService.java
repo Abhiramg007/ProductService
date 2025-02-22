@@ -13,8 +13,8 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
-public class FakeStoreProductService {
+@Service("fakeStoreProductService")
+public class FakeStoreProductService  implements ProductService {
 
     private RestTemplate restTemplate;
 
@@ -22,7 +22,7 @@ public class FakeStoreProductService {
         this.restTemplate = restTemplate;
     }
 
-    public Product getProduct(Integer id) {
+    public Product getProductById(Integer id) {
         Product product = new Product();
         ResponseEntity<FakeStoreProductDTO> response =
                 restTemplate.getForEntity("https://fakestoreapi.com/products/" + id, FakeStoreProductDTO.class);
@@ -91,11 +91,11 @@ public class FakeStoreProductService {
         return product;
     }
 
-    public String deleteProduct(Integer id) {
+    public Product deleteProduct(Integer id) {
 
         restTemplate.delete("https://fakestoreapi.com/products/"+id);
 
-        return "Product deleted";
+        return new Product();
 
     }
 
