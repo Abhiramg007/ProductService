@@ -56,7 +56,7 @@ public class SelfProductService implements ProductService {
             myCategoryRepo.save(category);
         }
 
-        product.setCategory(category);
+        product.setCategory(existingcategory);
         myProductRepo.save(product);
         return product;
     }
