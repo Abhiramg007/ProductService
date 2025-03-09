@@ -2,6 +2,7 @@ package com.example.productservice.service;
 
 import com.example.productservice.dto.CategoryDTO;
 import com.example.productservice.dto.ProductDTO;
+import com.example.productservice.exception.ProductNotFoundException;
 import com.example.productservice.model.Category;
 import com.example.productservice.model.Product;
 import com.example.productservice.repositry.MyCategoryRepo;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service("selfProductService")
 public class SelfProductService implements ProductService {
@@ -22,13 +24,17 @@ public class SelfProductService implements ProductService {
     private MyCategoryRepo myCategoryRepo;
 
     @Override
-    public Product getProductById(Integer id) {
-        Product product = myProductRepo.findById(id).get();
-        return product;
+    public Product getProductById(Integer id) throws ProductNotFoundException {
+        Optional<Product> product = myProductRepo.findById(id);
+        if(!product.isPresent()){
+            throw new ProductNotFoundException("product not found");
+        }
+        return product.get();
     }
 
     @Override
     public List<Product> getAllProducts() {
+
         return myProductRepo.findAll();
     }
 
@@ -62,8 +68,13 @@ public class SelfProductService implements ProductService {
     }
 
     @Override
-    public Product updateProduct(Integer id, ProductDTO productDTO) {
-        Product product = myProductRepo.findById(id).get();
+    public Product updateProduct(Integer id, ProductDTO productDTO) throws ProductNotFoundException {
+        Optional<Product> list = myProductRepo.findById(id);
+        if(!list.isPresent()){
+            throw new ProductNotFoundException("product not found");
+        }
+
+        Product product =list.get();
         product.setDescription(productDTO.getDescription());
         product.setTitle(productDTO.getTitle());
         product.setUpdatedAt(new Date());
@@ -73,8 +84,12 @@ public class SelfProductService implements ProductService {
     }
 
     @Override
-    public Product deleteProduct(Integer id) {
-        Product product = myProductRepo.findById(id).get();
+    public Product deleteProduct(Integer id) throws ProductNotFoundException {
+        Optional<Product> list = myProductRepo.findById(id);
+        if(!list.isPresent()){
+            throw new ProductNotFoundException("product not found");
+        }
+        Product product = list.get();
         product.setDeleted(true);
         return product;
     }

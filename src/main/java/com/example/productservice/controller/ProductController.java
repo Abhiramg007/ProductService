@@ -2,6 +2,7 @@ package com.example.productservice.controller;
 
 import com.example.productservice.dto.CategoryDTO;
 import com.example.productservice.dto.ProductDTO;
+import com.example.productservice.exception.ProductNotFoundException;
 import com.example.productservice.model.Category;
 import com.example.productservice.model.Product;
 import com.example.productservice.repositry.MyCategoryRepo;
@@ -18,7 +19,9 @@ public class ProductController {
 
     @Autowired
     private SelfCategoryService categoryService;
+
     private ProductService productService;
+
     @Autowired
     private MyCategoryRepo myCategoryRepo;
 
@@ -32,8 +35,9 @@ public class ProductController {
     }
 
     @GetMapping("/product/{id}")
-    public Product getProductById(@PathVariable Integer id) {
-        return productService.getProductById(id);
+    public Product getProductById(@PathVariable Integer id) throws ProductNotFoundException {
+        Product product = productService.getProductById(id);
+        return product;
 
     }
 
@@ -48,13 +52,15 @@ public class ProductController {
     }
 
     @PutMapping("/product/{id}")
-    public Product updateProduct(@PathVariable Integer id, @RequestBody ProductDTO product) {
+    public Product updateProduct(@PathVariable Integer id, @RequestBody ProductDTO product) throws ProductNotFoundException {
         return productService.updateProduct(id, product);
     }
 
     @DeleteMapping("/product/{id}")
-    public Product deleteProduct(@PathVariable Integer id) {
-        return productService.deleteProduct(id);
+    public Product deleteProduct(@PathVariable Integer id) throws ProductNotFoundException {
+
+        Product product = productService.getProductById(id);
+        return product;
     }
 
     @GetMapping("/category/{id}")
@@ -79,6 +85,6 @@ public class ProductController {
 
     @DeleteMapping("/category/{id}")
     public Category deleteCategory(@PathVariable Integer id) {
-        return categoryService.deleteCategory(id);
+        return categoryService.deleteCategory(id) ;
     }
 }
