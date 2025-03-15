@@ -7,6 +7,7 @@ import com.example.productservice.model.Category;
 import com.example.productservice.model.Product;
 import com.example.productservice.repositry.MyCategoryRepo;
 import com.example.productservice.repositry.MyProductRepo;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,6 +39,7 @@ public class SelfProductService implements ProductService {
         return myProductRepo.findAll();
     }
 
+    @Transactional
     @Override
     public Product createProduct(ProductDTO productDTO) {
         Product product = new Product();
@@ -67,6 +69,7 @@ public class SelfProductService implements ProductService {
         return product;
     }
 
+    @Transactional
     @Override
     public Product updateProduct(Integer id, ProductDTO productDTO) throws ProductNotFoundException {
         Optional<Product> list = myProductRepo.findById(id);
@@ -83,6 +86,7 @@ public class SelfProductService implements ProductService {
         return product;
     }
 
+    @Transactional
     @Override
     public Product deleteProduct(Integer id) throws ProductNotFoundException {
         Optional<Product> list = myProductRepo.findById(id);

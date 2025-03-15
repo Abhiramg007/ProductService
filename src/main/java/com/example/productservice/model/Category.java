@@ -4,9 +4,15 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Category extends BaseModel{
 
@@ -14,21 +20,5 @@ public class Category extends BaseModel{
 
     @OneToMany(mappedBy = "category",cascade = {CascadeType.REMOVE},fetch = FetchType.LAZY)
     List<Product> myProducts;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<Product> getMyProducts() {
-        return myProducts;
-    }
-
-    public void setMyProducts(List<Product> myProducts) {
-        this.myProducts = myProducts;
-    }
 
 }
