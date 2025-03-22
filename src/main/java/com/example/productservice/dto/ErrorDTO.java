@@ -1,8 +1,10 @@
 package com.example.productservice.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Setter
+@Getter
 public class ErrorDTO {
     String message;
     String code;

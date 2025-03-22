@@ -5,7 +5,6 @@ import com.example.productservice.dto.ProductDTO;
 import com.example.productservice.exception.ProductNotFoundException;
 import com.example.productservice.model.Category;
 import com.example.productservice.model.Product;
-import com.example.productservice.repositry.MyCategoryRepo;
 import com.example.productservice.service.ProductService;
 import com.example.productservice.service.SelfCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +17,11 @@ import java.util.List;
 public class ProductController {
 
     @Autowired
-    private SelfCategoryService categoryService;
-
-    private ProductService productService;
+    private  SelfCategoryService categoryService;
 
     @Autowired
-    private MyCategoryRepo myCategoryRepo;
+    @Qualifier("selfProductService")
+    private ProductService productService;
 
     public ProductController(@Qualifier("selfProductService") ProductService productService) {
         this.productService = productService;
@@ -36,8 +34,7 @@ public class ProductController {
 
     @GetMapping("/product/{id}")
     public Product getProductById(@PathVariable Integer id) throws ProductNotFoundException {
-        Product product = productService.getProductById(id);
-        return product;
+        return productService.getProductById(id);
 
     }
 
@@ -59,8 +56,7 @@ public class ProductController {
     @DeleteMapping("/product/{id}")
     public Product deleteProduct(@PathVariable Integer id) throws ProductNotFoundException {
 
-        Product product = productService.getProductById(id);
-        return product;
+        return productService.deleteProduct(id);
     }
 
     @GetMapping("/category/{id}")
